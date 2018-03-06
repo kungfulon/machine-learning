@@ -25,7 +25,7 @@ class LinearRegression(object):
     num_train, dim = X.shape
     if self.W is None:
       # lazily initialize W
-      self.W = 0.001 * np.random.randn(dim, 1)
+      self.W = 0.001 * np.random.randn(dim, )
 
     # Run gradient descent to optimize W
     loss_history = []
@@ -40,7 +40,7 @@ class LinearRegression(object):
       # TODO:                                                                 #
       # Update the weights using the gradient and the learning rate.          #
       #########################################################################
-      pass
+      self.W -= learning_rate * grad
       #########################################################################
       #                       END OF YOUR CODE                                #
       #########################################################################
@@ -56,19 +56,19 @@ class LinearRegression(object):
     data points.
 
     Inputs:
-    - X: D x N array of training data. Each column is a D-dimensional point.
+    - X: N x D array of training data. Each row is a D-dimensional point.
 
     Returns:
     - y_pred: Predicted labels for the data in X. y_pred is a 1-dimensional
       array of length N, and each element is an integer giving the predicted
       class.
     """
-    y_pred = np.zeros(X.shape[1])
+    y_pred = np.zeros(X.shape[0])
     ###########################################################################
     # TODO:                                                                   #
     # Implement this method. Store the predicted labels in y_pred.            #
     ###########################################################################
-    pass
+    y_pred = np.dot(X, self.W)
     ###########################################################################
     #                           END OF YOUR CODE                              #
     ###########################################################################
@@ -82,7 +82,7 @@ class LinearRegression(object):
     # TODO:                                                                 #
     # Calculate the loss value and gradient matrix with linear_loss_..      #
     #########################################################################
-    loss, grad = None
+    loss, grad = linear_loss_vectorized(self.W, X, y, reg)
     #########################################################################
     #                       END OF YOUR CODE                                #
     #########################################################################

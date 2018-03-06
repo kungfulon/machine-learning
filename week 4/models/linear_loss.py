@@ -7,7 +7,7 @@ def linear_loss_naive(W, X, y, reg):
     Inputs have dimension D, there are N examples.
 
     Inputs:
-    - W: A numpy array of shape (D, 1) containing weights.
+    - W: A numpy array of shape (D,) containing weights.
     - X: A numpy array of shape (N, D) containing data.
     - y: A numpy array of shape (N,) containing training labels; y[i] = c means
         that X[i] has label c, where c is a real number.
@@ -27,7 +27,12 @@ def linear_loss_naive(W, X, y, reg):
     # here, it is easy to run into numeric instability. Don't forget the        #
     # regularization!                                                           #
     #############################################################################
-    pass
+    N, D = X.shape
+    for i in range(0, N):
+        dW += (X[i] * W - y[i]) * X[i]
+        loss += np.sum((X[i] * W - y[i]) ** 2)
+    dW = dW / N + W * reg
+    loss = loss / (2 * N) + np.sum(W ** 2) * (reg / 2)
     #############################################################################
     #                          END OF YOUR CODE                                 #
     #############################################################################
@@ -51,7 +56,9 @@ def linear_loss_vectorized(W, X, y, reg):
     # here, it is easy to run into numeric instability. Don't forget the        #
     # regularization!                                                           #
     #############################################################################
-    pass
+    N, D = X.shape
+    dW = np.sum((X * W - y.reshape(N, 1)) * X, axis = 0) / N + W * reg
+    loss = np.sum(np.sum((X * W - y.reshape(N, 1)) ** 2)) / (2 * N) + np.sum(W ** 2) * (reg / 2)
     #############################################################################
     #                          END OF YOUR CODE                                 #
     #############################################################################
